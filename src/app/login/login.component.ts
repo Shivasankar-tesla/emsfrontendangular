@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiserviceService } from '../shared/apiservice.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import decode from 'jwt-decode';
 
 
 @Component({
@@ -11,14 +15,67 @@ export class LoginComponent implements OnInit {
 
   validateForm!: FormGroup;
 
+
+  createBasicNotification(message:string): void {
+    this.notification
+      .blank(
+        'Error',
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
+
+
+
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+  
+    this.service.login(this.validateForm.get("userName")?.value,this.validateForm.get("password")?.value).subscribe(data=>{
+      if(data.token)
+      {  
+        // checking if the token is present
+        // saving the token inside  localstorage
+        const tokenPayload:any = decode(data.token);
+        console.log(tokenPayload);
+        let role=(tokenPayload["role"]);
+        //localStorage.setItem('currentUser', JSON.stringify(data["user"]));
+        localStorage.setItem('token', data.token);
+        //localStorage.setItem('role', JSON.stringify(tokenPayload["role"]));
+   
+        //const tokenPayload = decode(data.token);
+        //console.log("payload"+JSON.stringify(tokenPayload));
+        
+          console.log("executed");
+          //console.log("executed",data.role);
+   
+          if(role=="admin")
+          {
+           this.router.navigate(['/admin']);
+          }
+         else if(role=="user")
+         {
+           this.router.navigate(['/user']);
+         }
+   
+          //console.log("executed",data.role);
+        
+   
+       
+      }
+   
+      
+    },err=>{
+      this.createBasicNotification('Wrong Username Or Password');
+
+    })
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,private notification: NzNotificationService,private service:ApiserviceService,private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

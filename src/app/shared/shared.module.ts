@@ -5,13 +5,22 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { ApiserviceService } from './apiservice.service';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     NzFormModule,
     NzButtonModule ,
-    NzDividerModule
+    NzDividerModule,
+    NzNotificationModule
+ 
+  ],
+  providers:[
+ ApiserviceService
   ],
   
   exports: [
@@ -19,7 +28,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzInputModule,
     FormsModule, ReactiveFormsModule,
     NzButtonModule ,
-    NzDividerModule
+    NzDividerModule,
+    NzNotificationModule,
+  
+    
   ]
 })
 export class SharedModule { }
