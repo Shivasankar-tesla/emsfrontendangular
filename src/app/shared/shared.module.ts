@@ -8,6 +8,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ApiserviceService } from './apiservice.service';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   declarations: [],
@@ -30,6 +34,10 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
     NzButtonModule ,
     NzDividerModule,
     NzNotificationModule,
+    NzTableModule,
+    NzIconModule,
+    NzSpinModule,
+    NzPaginationModule
   
     
   ]

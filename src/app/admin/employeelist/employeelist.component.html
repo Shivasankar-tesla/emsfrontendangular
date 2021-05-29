@@ -1,0 +1,66 @@
+<div  nz-row style="margin-top: 100px;">
+
+    <div nz-col nzSpan="8" nzOffset="10">
+      <h1>Employee List</h1>
+    </div>
+    </div>
+
+    <div nz-col nzSpan="4" nzOffset="2">
+        <input nz-input placeholder="Type to filter Data..." (keyup)="serverSideFiltering($event)" nzSize="large" />
+
+    </div>
+<div  nz-row style="margin-top: 18px;">
+    <div nz-col nzSpan="20" nzOffset="2">
+
+        <div *ngIf="loading">
+            <nz-spin nzSimple [nzSize]="'large'"  style="margin-left: 600px; position: absolute; z-index: 9999 ;margin-top: 300px;"></nz-spin>
+
+        </div>
+        
+
+
+        <nz-table  #filterTable [nzData]="listOfData"  nzShowPagination="false">
+
+            <thead>
+              <tr>
+                <th [nzSortFn]="true"   (nzSortOrderChange)="serverSideSorting($event,'id')">Id</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'name')">Name</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'username')">Username</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'role')">Role</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'joiningDate')">Joining Date</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'address')">Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="!loading">
+
+              <tr *ngFor="let data of filterTable.data;let i = index" >
+                <td>{{ data.id }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.username }}</td>
+                <td>{{ data.role }}</td>
+                <td>{{ data.joiningDate }}</td>
+                <td>{{ data.address }}</td>
+                <td>
+                  <a><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a><i nz-icon nzType="delete" nzTheme="outline"></i></a>
+                </td>
+              </tr>
+            </tbody>
+
+          </nz-table>
+         
+
+    </div>
+
+</div>
+
+<div  nz-row style="margin-top: 15px; margin-bottom: 45px; padding-bottom: 20px;">
+
+    <div nz-col nzSpan="8" nzOffset="8">
+        <nz-pagination [nzPageIndex]="currentPageNumber" [nzTotal]="totalElements"  [nzPageSize]="pageSize" (nzPageIndexChange)="pageChange($event)" (nzPageSizeChange)="onCurrentPageSizeChange($event)"></nz-pagination>
+
+    </div>
+    </div>
+
