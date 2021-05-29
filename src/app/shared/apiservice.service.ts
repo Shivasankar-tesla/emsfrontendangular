@@ -36,4 +36,15 @@ getEmployeesByFilter(paginateBy:Pagination,user:Employee):Observable<any>
   return this.http.post(`http://${environment.url}:${environment.port}/admin/employeeListFilter`,{...paginateBy,...user});
 
 }
+
+addEmployee(employee:Employee):Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/admin/createEmployee`,employee);
+
+}
+deleteEmployee(employee:Employee):Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/admin/deleteEmployee`,employee);
+
+}
 }

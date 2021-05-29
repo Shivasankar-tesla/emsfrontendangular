@@ -4,5 +4,6 @@ export interface Employee {
     joiningDate:string
     username: string;
     address: string;
-    role:string
+    role:string,
+    password:string
   }

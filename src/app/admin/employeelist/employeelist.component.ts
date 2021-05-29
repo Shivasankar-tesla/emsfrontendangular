@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiserviceService } from 'src/app/shared/apiservice.service';
 import { Employee } from 'src/models/Employee';
 import { Pagination } from 'src/models/Pagination';
-
+import * as moment from 'moment';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 
 
@@ -16,15 +17,105 @@ import { Pagination } from 'src/models/Pagination';
 export class EmployeelistComponent implements OnInit {
 
   listOfData: Employee[] = [];
-  paginateBy:Pagination={pageNumber:0,pageSize:10,sortDirection:1,sortBy:"id"}
+  paginateBy:Pagination={pageNumber:0,pageSize:10,sortDirection:0,sortBy:"id"}
   totalElements:number=0;
   loading:boolean=false;
   currentPageNumber:number=1;
   pageSize:number=10
-  employee:Employee={id: 0,name:"",joiningDate:"",username: "",address: "",role:""};
-  
-  constructor(private service:ApiserviceService) { }
+  employee:Employee={id: 0,name:"",joiningDate:"",username: "",address: "",role:"",password:""};
+  title:string="Add Employee"
+  isVisible = false;
+  isOkLoading = false;
+  date:Date=new Date();
+  isEnglish = false;
+  role:string="";
+  name:string=""
+  username:string="";
+  address:string="";
 
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  onChange(result: Date): void {
+    this.date=result;
+   
+  }
+
+  deleteEmployee(id:number,role:string)
+  {
+    this.loading=true
+    this.employee.id=id;
+    this.employee.role=role;
+ 
+    this.service.deleteEmployee(this.employee).subscribe(data=>{
+     
+      this.createBasicNotification("Employee Deleted SuccessFully");
+      this.getEmployees(this.paginateBy);
+
+
+    },err=>{
+      this.createBasicNotification("Something Went Wrong");
+      this.isVisible = false;
+      this.isOkLoading = false;
+    })
+
+  }
+  createBasicNotification(message:string): void {
+    this.notification
+      .blank(
+        'Error',
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    this.employee.role=this.role;
+    this.employee.name=this.name;
+    this.employee.username=this.username;
+    this.employee.address=this.address;
+   // this.employee["isEnabled"]=true;
+    const isEmpty = Object.values(this.employee).every(x => x === null || x === "" || x===0);
+    if(!isEmpty)
+    {
+      this.employee.password="1234";
+      this.employee.joiningDate=moment(this.date).format("YYYY-MM-DD");
+
+
+      this.service.addEmployee(this.employee).subscribe(data=>{
+     
+        this.createBasicNotification("Employee Added SuccessFully");
+        this.getEmployees(this.paginateBy);
+  
+  
+      },err=>{
+        this.createBasicNotification("Something Went Wrong");
+        this.isVisible = false;
+        this.isOkLoading = false;
+      })
+    }
+
+    else{
+      this.createBasicNotification("All Fields Are Required");
+
+    }
+   
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+  
+  constructor(private service:ApiserviceService,private notification: NzNotificationService) { }
+
+  changeDate(timeStamp:string)
+  {
+   return moment(timeStamp).format('YYYY-MM-DD');;
+  }
   getEmployees(paginateBy:Pagination)
   {
     this.loading=true;
@@ -34,6 +125,8 @@ export class EmployeelistComponent implements OnInit {
       this.listOfData=data["content"];
       this.totalElements=data["totalElements"]
       this.loading=false;
+      this.isVisible = false;
+      this.isOkLoading = false;
      
      
     
