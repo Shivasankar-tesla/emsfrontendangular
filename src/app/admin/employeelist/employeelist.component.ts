@@ -166,6 +166,7 @@ export class EmployeelistComponent implements OnInit {
   }
   openEditPopup(data:Employee)
   {
+    debugger;
     this.edit=true;
     this.isVisible=true;
     this.address=data.address;

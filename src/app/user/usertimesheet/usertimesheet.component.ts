@@ -75,6 +75,8 @@ logout(time:Date)
     if(!isEmpty)
     {
       this.service.addTimeSheet(timeSheet).subscribe(data=>{
+        this.createBasicNotification("Timesheet Added");
+
         this.getTimesheets(this.paginateBy);
       },err=>{
         this.createBasicNotification("Something Went Wrong");
@@ -106,6 +108,7 @@ logout(time:Date)
         this.loading=false;
         this.isVisible = false;
         this.isOkLoading = false;
+        
       
        
        

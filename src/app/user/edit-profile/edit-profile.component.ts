@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from "moment";
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApiserviceService } from 'src/app/shared/apiservice.service';
 import { Employee } from 'src/models/Employee';
 
@@ -10,7 +11,7 @@ import { Employee } from 'src/models/Employee';
 })
 export class EditProfileComponent implements OnInit {
 
-  constructor(private service:ApiserviceService) { }
+  constructor(private service:ApiserviceService,private notification: NzNotificationService) { }
 
   name:any;
   username:any;
@@ -25,9 +26,23 @@ export class EditProfileComponent implements OnInit {
     this.loading=true;
     let employee:Employee={name:this.name,username:this.username,joiningDate:this.date,address:this.address,password:this.password,id:0,role:localStorage.getItem("role")||"user"}
     this.service.updatemployee(employee).subscribe(data=>{
-      this.getEmployeeData()
+      this.createBasicNotification("Edited SuccessFully");
+      this.getEmployeeData();
+      this.password="";
+     
     })
   }
+  createBasicNotification(message:string): void {
+    this.notification
+      .blank(
+        'Error',
+        message
+      )
+      .onClick.subscribe(() => {
+        console.log('notification clicked!');
+      });
+  }
+
 getEmployeeData()
 {
   this.loading=true;
