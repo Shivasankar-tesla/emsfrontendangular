@@ -87,6 +87,7 @@ export class EmployeelistComponent implements OnInit {
     this.employee.username=this.username;
     this.employee.address=this.address;
     this.employee.id=this.id;
+    this.employee.password=this.password;
    // this.employee["isEnabled"]=true;
     const isEmpty = Object.values(this.employee).every(x => x === null || x === "" || x===0);
     if(!isEmpty)
