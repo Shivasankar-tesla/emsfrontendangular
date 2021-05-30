@@ -33,7 +33,7 @@ export class EmployeelistComponent implements OnInit {
   name:string=""
   username:string="";
   address:string="";
-  password:string="1234";
+  password:string="";
   edit:boolean=false;
   id:number=0;
 

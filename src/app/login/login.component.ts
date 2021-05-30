@@ -74,6 +74,8 @@ export class LoginComponent implements OnInit {
       
     },err=>{
       this.createBasicNotification('Wrong Username Or Password');
+      this.loading=false;
+
 
     })
   }
