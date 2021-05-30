@@ -6,12 +6,8 @@
     
     </div>
     <div nz-row style="margin-top: 8px;">
-     
+      <div nz-col nzSpan="4" nzOffset="2">
 
-    <div nz-col nzSpan="2" nzOffset="16">
-      <button nz-button nzType="primary" (click)="showModal()">
-        <span>Fill Time Sheet</span>
-      </button>
     </div>
    
     </div>
@@ -32,11 +28,10 @@
             <thead>
               <tr>
                 <th [nzSortFn]="true"   (nzSortOrderChange)="serverSideSorting($event,'id')">Id</th>
-                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'taskDone')">Task Done</th>
-                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'loggedInTime')">Logged In Time</th>
-                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'logoutTime')">Logout Time</th>
-                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'entryDate')">Entry Date</th>
-
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'name')">Task Done</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'username')">Logged In Time</th>
+                <th [nzSortFn]="true" (nzSortOrderChange)="serverSideSorting($event,'role')">Logout Time</th>
+                
               </tr>
             </thead>
             <tbody >
@@ -46,7 +41,6 @@
                 <td>{{ data.taskDone }}</td>
                 <td>{{ data.loggedInTime }}</td>
                 <td>{{ data.logoutTime }}</td>
-                <td>{{ changeDate(data.entryDate) }}</td>
                 
               
               </tr>
@@ -66,30 +60,6 @@
 
     </div>
     </div>
-    <nz-modal
-    [(nzVisible)]="isVisible"
-    nzTitle="{{title}}"
-    (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading"
-  >
-    <p *nzModalContent>
-
-      <input nz-input placeholder="Task Done" nzSize="large" [(ngModel)]="taskDone" />
-      <nz-divider nzText="Entry Date"></nz-divider>
-      
-
-      <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
-
-      <nz-divider nzText="Login Time"></nz-divider>
-
-      <nz-time-picker [(ngModel)]="logintime"  (ngModelChange)="login($event)"></nz-time-picker> 
-      <nz-divider nzText="Logout Time"></nz-divider>
-      <nz-time-picker [(ngModel)]="logouttime" (ngModelChange)="logout($event)" ></nz-time-picker> 
-
-
-
-    </p>
-  </nz-modal>
+ 
 
 

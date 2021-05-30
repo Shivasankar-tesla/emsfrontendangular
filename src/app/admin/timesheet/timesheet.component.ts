@@ -5,15 +5,12 @@ import { Pagination } from 'src/models/Pagination';
 import * as moment from 'moment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Timesheet } from 'src/models/Timesheet';
-
 @Component({
-  selector: 'app-usertimesheet',
-  templateUrl: './usertimesheet.component.html',
-  styleUrls: ['./usertimesheet.component.css']
+  selector: 'app-timesheet',
+  templateUrl: './timesheet.component.html',
+  styleUrls: ['./timesheet.component.css']
 })
-export class UsertimesheetComponent implements OnInit {
-
-  
+export class TimesheetComponent implements OnInit {
 
   listOfData: Timesheet[] = [];
   paginateBy:Pagination={pageNumber:0,pageSize:10,sortDirection:0,sortBy:"id"}
@@ -26,25 +23,7 @@ export class UsertimesheetComponent implements OnInit {
   isOkLoading = false;
   date:Date=new Date();
   isEnglish = false;
-  title="Make a TimeSheet Entry"
-  logintime:any="";
-  logouttime:any=""
-  taskDone:any="";
  
-
-  login(time:Date)
-  {
-    this.logintime=time.toTimeString().split(/[ ]+/)[0];
-    console.log(this.logintime)
-}
-
-
-logout(time:Date)
-{
-  this.logouttime=time.toTimeString().split(/[ ]+/)[0];
-  console.log(this.logintime)
-}
-
 
   showModal(): void {
     this.isVisible = true;
@@ -67,65 +46,33 @@ logout(time:Date)
       });
   }
 
-  handleOk(): void {
-    this.isOkLoading = true;
-    let timeSheet:Timesheet={taskDone:this.taskDone,loggedInTime:this.logintime,logoutTime:this.logouttime,entryDate:this.date};
-    const isEmpty = Object.values(timeSheet).every(x => x === null || x.length==0 );
-    debugger;
-    if(!isEmpty)
-    {
-      this.service.addTimeSheet(timeSheet).subscribe(data=>{
-        this.getTimesheets(this.paginateBy);
-      },err=>{
-        this.createBasicNotification("Something Went Wrong");
-      })
-
-    }
-    else{
-      this.createBasicNotification("All fields Are Required");
-    }
-   
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-  }
-  
-  getTimesheets(paginateBy:Pagination)
-  {
-
-    this.loading=true;
-    let token=localStorage.getItem("token");
-    if(token)
-    {
-      this.service.getUserTimesheet(paginateBy).subscribe(data=>{
-        this.currentPageNumber=data["pageable"].pageNumber+1;
-        this.pageSize=data.size;
-        this.listOfData=data["content"];
-        this.totalElements=data["totalElements"]
-        this.loading=false;
-        this.isVisible = false;
-        this.isOkLoading = false;
-      
-       
-       
-      
-  
-      })
-    }
-   
-  }
-
+ 
 
   
   
   constructor(private service:ApiserviceService,private notification: NzNotificationService) { }
 
-  changeDate(timeStamp:any)
+  changeDate(timeStamp:string)
   {
    return moment(timeStamp).format('YYYY-MM-DD');;
   }
- 
+  getTimesheets(paginateBy:Pagination)
+  {
+    this.loading=true;
+    this.service.getTimesheets(paginateBy).subscribe(data=>{
+      this.currentPageNumber=data["pageable"].pageNumber+1;
+      this.pageSize=data.size;
+      this.listOfData=data["content"];
+      this.totalElements=data["totalElements"]
+      this.loading=false;
+      this.isVisible = false;
+      this.isOkLoading = false;
+     
+     
+    
+
+    })
+  }
 
  
 

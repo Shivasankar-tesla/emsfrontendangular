@@ -15,6 +15,9 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @NgModule({
   declarations: [],
@@ -43,7 +46,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzPaginationModule,
     NzModalModule,
     NzDatePickerModule,
-    NzSelectModule
+    NzSelectModule,
+    NzMenuModule,
+    NzTimePickerModule
 
     
   ]

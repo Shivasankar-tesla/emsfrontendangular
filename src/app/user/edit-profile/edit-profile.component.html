@@ -1,0 +1,32 @@
+<div  nz-row style="margin-top: 100px;">
+
+    <div nz-col nzSpan="8" nzOffset="9">
+        <h1>Update Details</h1>
+      </div>
+</div>
+
+<div  nz-row style="margin-top: 10px; padding-bottom: 40px;">
+  <div *ngIf="loading">
+    <nz-spin nzSimple [nzSize]="'large'"  style="margin-left: 750px; position: absolute; z-index: 9999 ;margin-top: 200px;"></nz-spin>
+
+</div>
+    <div nz-col nzSpan="8" nzOffset="9">
+        <input nz-input placeholder="Name" nzSize="large" [(ngModel)]="name" />
+        <nz-divider></nz-divider>
+        <input nz-input placeholder="Username" nzSize="large" [(ngModel)]="username" />
+        <nz-divider></nz-divider>
+        <input nz-input placeholder="Address" nzSize="large"  [(ngModel)]="address"/>
+        
+        <nz-divider nzText="Joining Date"></nz-divider>
+        
+        <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)">Joining Date</nz-date-picker>
+        
+        <nz-divider nzText="Password"></nz-divider>
+        <input nz-input placeholder="Password" nzSize="large"  [(ngModel)]="password"/>
+        <nz-divider></nz-divider>
+        <button nz-button nzType="primary"(click)="editSubmit()" >Submit</button>
+
+      </div>
+</div>
+
+

@@ -13,13 +13,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorComponent } from './error/error.component';
 import { HttpConfigInterceptor } from './http-config-interceptor';
+import { SharedModule } from './shared/shared.module';
+import { NavbarComponent } from './navbar/navbar.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorComponent
+    ErrorComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    SharedModule,
     JwtModule.forRoot({config: {
       throwNoTokenError: false
     }}),

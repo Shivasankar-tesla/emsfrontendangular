@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiserviceService } from '../shared/apiservice.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import decode from 'jwt-decode';
+import { ShareddataService } from '../shared/shareddata.service';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
         let role=(tokenPayload["role"]);
         //localStorage.setItem('currentUser', JSON.stringify(data["user"]));
         localStorage.setItem('token', data.token);
+        localStorage.setItem('role',role);
         //localStorage.setItem('role', JSON.stringify(tokenPayload["role"]));
    
         //const tokenPayload = decode(data.token);
@@ -52,16 +54,18 @@ export class LoginComponent implements OnInit {
         
           console.log("executed");
           //console.log("executed",data.role);
-   
+        
           if(role=="admin")
           {
            this.router.navigate(['/admin/employees']);
+           this.sharedService.onDataReceived(true);
           }
          else if(role=="user")
          {
-           this.router.navigate(['/user']);
+           this.router.navigate(['/user/timesheet']);
+           this.sharedService.onDataReceived(true);
          }
-   
+         
           //console.log("executed",data.role);
         
    
@@ -75,7 +79,7 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  constructor(private fb: FormBuilder,private notification: NzNotificationService,private service:ApiserviceService,private route: ActivatedRoute, private router: Router) {}
+  constructor(private fb: FormBuilder,private notification: NzNotificationService,private service:ApiserviceService,private route: ActivatedRoute, private router: Router,private sharedService:ShareddataService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

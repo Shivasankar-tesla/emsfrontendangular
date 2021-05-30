@@ -1,0 +1,30 @@
+<ul  nz-menu nzMode="horizontal" *ngIf="isAuthenticated">
+    <li nz-menu-item nzSelected *ngIf="role==='admin'" routerLink="/admin/employees">
+      <i nz-icon nzType="mail"></i>
+    Employees
+    </li>
+    <li nz-menu-item *ngIf="role==='admin'" >
+      <i nz-icon nzType="appstore"></i>
+     Create Leaves
+    </li>
+
+
+    <li nz-menu-item  routerLink="/admin/timesheets" *ngIf="role==='admin'">
+        <i nz-icon nzType="appstore"></i>
+       Timesheets
+      </li>
+
+      <li nz-menu-item  routerLink="/user/timesheet" *ngIf="role==='user'">
+        <i nz-icon nzType="appstore"></i>
+       Timesheet
+      </li>
+      <li nz-menu-item  routerLink="/user/editProfile" *ngIf="role==='user'">
+        <i nz-icon nzType="appstore"></i>
+       Update Profile
+      </li>
+   
+    <li nz-menu-item (click)="logout()">
+        <i nz-icon nzType="appstore" ></i>
+     Logout
+    </li>
+  </ul>

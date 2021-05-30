@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Pagination } from 'src/models/Pagination';
 import { Employee } from 'src/models/Employee';
+import { Timesheet } from 'src/models/Timesheet';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,16 @@ export class ApiserviceService {
 
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token') || "token";
-    return !this.jwtHelper.isTokenExpired(token);
+    const token = localStorage.getItem('token');
+    if(token)
+    {
+      return !this.jwtHelper.isTokenExpired(token);
+
+    }
+    else{
+      return false;
+    }
+   
   }
 
   login (username:string,password:string):Observable<any>
@@ -47,4 +56,37 @@ deleteEmployee(employee:Employee):Observable<any>
   return this.http.post(`http://${environment.url}:${environment.port}/admin/deleteEmployee`,employee);
 
 }
+
+getTimesheets(paginateBy:Pagination):Observable<any>
+
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/admin/getTimesheet`,paginateBy);
+
+}
+
+addTimeSheet(timesheet:Timesheet):Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/employee/timeSheetEntry`,timesheet);
+
+}
+
+getUserTimesheet(paginateBy:Pagination):Observable<any>
+
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/employee/getUserTimeSheet`,paginateBy);
+
+}
+
+getEmployeeByUsername():Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/employee/getByUsername`,{});
+
+}
+
+updatemployee(employe:Employee):Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/employee/updateEmployee`,employe);
+
+}
+
 }
