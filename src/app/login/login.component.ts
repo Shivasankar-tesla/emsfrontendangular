@@ -15,6 +15,7 @@ import { ShareddataService } from '../shared/shareddata.service';
 export class LoginComponent implements OnInit {
 
   validateForm!: FormGroup;
+  loading=false;
 
 
   createBasicNotification(message:string): void {
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
   
+    this.loading=true;
     this.service.login(this.validateForm.get("userName")?.value,this.validateForm.get("password")?.value).subscribe(data=>{
       if(data.token)
       {  
@@ -44,17 +46,14 @@ export class LoginComponent implements OnInit {
         const tokenPayload:any = decode(data.token);
         console.log(tokenPayload);
         let role=(tokenPayload["role"]);
-        //localStorage.setItem('currentUser', JSON.stringify(data["user"]));
+   
         localStorage.setItem('token', data.token);
         localStorage.setItem('role',role);
-        //localStorage.setItem('role', JSON.stringify(tokenPayload["role"]));
    
-        //const tokenPayload = decode(data.token);
-        //console.log("payload"+JSON.stringify(tokenPayload));
+        this.loading=false;
+   
         
-          console.log("executed");
-          //console.log("executed",data.role);
-        
+     
           if(role=="admin")
           {
            this.router.navigate(['/admin/employees']);

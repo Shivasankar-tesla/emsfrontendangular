@@ -10,6 +10,7 @@
     
     <div nz-col nzSpan="8" nzOffset="10">
       
+     
 
 
         <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
@@ -38,6 +39,10 @@
             <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
         
           </form>
+          <div *ngIf="loading">
+            <nz-spin nzSimple [nzSize]="'large'"  style="margin-left: 150px; position: absolute; z-index: 9999 ;margin-top: 10px;"></nz-spin>
+    
+        </div>
     </div>
    
   </div>

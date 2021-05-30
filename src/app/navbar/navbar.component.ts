@@ -38,6 +38,7 @@ onDataChangeReceived = () => {
         if(data)
         {
         this.isAuthenticated=true;
+        this.role=localStorage.getItem("role");
         }
    
       

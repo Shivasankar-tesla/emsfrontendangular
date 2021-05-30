@@ -89,4 +89,11 @@ updatemployee(employe:Employee):Observable<any>
 
 }
 
+
+updatemployeeAdmin(employe:Employee):Observable<any>
+{
+  return this.http.post(`http://${environment.url}:${environment.port}/admin/updateEmployeeAdmin`,employe);
+
+}
+
 }

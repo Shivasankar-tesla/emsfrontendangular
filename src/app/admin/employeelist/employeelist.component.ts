@@ -25,6 +25,7 @@ export class EmployeelistComponent implements OnInit {
   employee:Employee={id: 0,name:"",joiningDate:"",username: "",address: "",role:"",password:""};
   title:string="Add Employee"
   isVisible = false;
+  isVisibleDelete = false;
   isOkLoading = false;
   date:Date=new Date();
   isEnglish = false;
@@ -32,15 +33,21 @@ export class EmployeelistComponent implements OnInit {
   name:string=""
   username:string="";
   address:string="";
+  password:string="1234";
+  edit:boolean=false;
+  id:number=0;
 
   showModal(): void {
     this.isVisible = true;
+    this.resetFields();
   }
 
   onChange(result: Date): void {
     this.date=result;
    
   }
+
+ 
 
   deleteEmployee(id:number,role:string)
   {
@@ -72,6 +79,42 @@ export class EmployeelistComponent implements OnInit {
       });
   }
 
+  handleEdit():void{
+    debugger;
+    this.isOkLoading = true;
+    this.employee.role=this.role;
+    this.employee.name=this.name;
+    this.employee.username=this.username;
+    this.employee.address=this.address;
+    this.employee.id=this.id;
+   // this.employee["isEnabled"]=true;
+    const isEmpty = Object.values(this.employee).every(x => x === null || x === "" || x===0);
+    if(!isEmpty)
+    {
+     
+      this.employee.joiningDate=moment(this.date).format("YYYY-MM-DD");
+
+
+      this.service.updatemployeeAdmin(this.employee).subscribe(data=>{
+     
+        this.createBasicNotification("Employee Edited SuccessFully");
+        this.getEmployees(this.paginateBy);
+        this.resetFields();
+  
+  
+      },err=>{
+        this.createBasicNotification("Something Went Wrong");
+        this.isVisible = false;
+        this.isOkLoading = false;
+      })
+    }
+
+    else{
+      this.createBasicNotification("All Fields Are Required");
+
+    }
+
+  }
   handleOk(): void {
     this.isOkLoading = true;
     this.employee.role=this.role;
@@ -82,7 +125,7 @@ export class EmployeelistComponent implements OnInit {
     const isEmpty = Object.values(this.employee).every(x => x === null || x === "" || x===0);
     if(!isEmpty)
     {
-      this.employee.password="1234";
+     
       this.employee.joiningDate=moment(this.date).format("YYYY-MM-DD");
 
 
@@ -108,6 +151,28 @@ export class EmployeelistComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
+  }
+
+  resetFields()
+  {
+    this.address="";
+    this.name="";
+    this.username="";
+    this.date=new Date();
+    this.role="";
+    this.edit=false;
+    
+  }
+  openEditPopup(data:Employee)
+  {
+    this.edit=true;
+    this.isVisible=true;
+    this.address=data.address;
+    this.name=data.name;
+    this.username=data.username;
+    this.date=new Date(data.joiningDate);
+    this.role=data.role;
+    this.id=data.id;
   }
   
   constructor(private service:ApiserviceService,private notification: NzNotificationService) { }

@@ -51,7 +51,7 @@
                 <td>{{ changeDate(data.joiningDate) }}</td>
                 <td>{{ data.address }}</td>
                 <td>
-                  <a><i nz-icon nzType="edit" nzTheme="outline"></i></a>
+                  <a><i nz-icon nzType="edit" nzTheme="outline" (click)="openEditPopup(data)"></i></a>
                   <nz-divider nzType="vertical"></nz-divider>
                   <a><i nz-icon nzType="delete" nzTheme="outline" (click)="deleteEmployee(data.id,data.role)"></i></a>
                 </td>
@@ -76,7 +76,7 @@
     [(nzVisible)]="isVisible"
     nzTitle="{{title}}"
     (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()"
+    (nzOnOk)="edit?handleEdit():handleOk()"
     [nzOkLoading]="isOkLoading"
   >
     <p *nzModalContent>
@@ -88,7 +88,9 @@
       <input nz-input placeholder="Address" nzSize="large"  [(ngModel)]="address"/>
 
       <nz-divider></nz-divider>
+      <input nz-input placeholder="Password" nzSize="large"  [(ngModel)]="password"/>
 
+      <nz-divider></nz-divider>
       <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)">Joining Date</nz-date-picker>
 
       <nz-divider></nz-divider>
@@ -100,5 +102,7 @@
 
     </p>
   </nz-modal>
+
+
 
 
